@@ -23,24 +23,15 @@ module.exports.getWeatherDetails = (address,callback) => {
             if(body.features.length != 0){
                 long = body.features[0].center[0];
                 lat = body.features[0].center[1];
+                place = body.features[0].place_name;
                 getWeatherForecast(long, lat, (err, { body } = {}) => {
                     if(!err){
                         var currently = body.currently;
-                        data = {
-                            Address: {
-
-                            },
-                            Geocode : {
-                                Longitude: long,
-                                Latitude: lat
-                            },
-                            Forecast: {
-                                TimeZone: body.timezone,
-                                Temparature: currently.temperature,
-                                PrecProbability:currently.precipProbability
-                            }
+                        result ={
+                            place,
+                            message: body.timezone+". It is currently "+currently.temperature+" degrees out. There is a "+currently.precipProbability+"% chance of rain"
                         };
-                        callback(null, data);
+                        callback(null, result);
                     }else{
                         callback("Error occured while connecting to darksky", null);
                     }

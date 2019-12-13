@@ -48,13 +48,12 @@ app.get('/weather', (req, res) => {
     weather.getWeatherDetails(req.query.address, (error, data) => {
         if(!error){
             response = data;
-            response.Address.Place = req.query.address;
         }else{
             response = error;
         }
         return res.send({
-            weather:  response
-         });
+            response
+        });
     });
 });
 
